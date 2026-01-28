@@ -8,7 +8,11 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
-from app.core.security import create_access_token, create_refresh_token, decode_access_token
+from app.core.security import (
+    create_access_token,
+    create_refresh_token,
+    decode_refresh_token,
+)
 from app.schemas.auth import LoginRequest, RefreshRequest, Token
 from app.services.auth import authenticate_user
 
@@ -76,9 +80,9 @@ async def refresh_tokens(
     from uuid import UUID
     from app.models.user import User
     
-    payload = decode_access_token(refresh_data.refresh_token)
+    payload = decode_refresh_token(refresh_data.refresh_token)
     
-    if payload is None or payload.get("type") != "refresh":
+    if payload is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid refresh token",

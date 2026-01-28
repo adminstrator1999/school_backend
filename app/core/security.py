@@ -60,13 +60,32 @@ def create_refresh_token(data: dict) -> str:
 
 
 def decode_access_token(token: str) -> dict | None:
-    """Decode and verify JWT token."""
+    """Decode and verify JWT access token."""
     try:
         payload = jwt.decode(
             token, 
             settings.SECRET_KEY, 
             algorithms=[settings.ALGORITHM]
         )
+        # Verify it's an access token, not a refresh token
+        if payload.get("type") != "access":
+            return None
+        return payload
+    except JWTError:
+        return None
+
+
+def decode_refresh_token(token: str) -> dict | None:
+    """Decode and verify JWT refresh token."""
+    try:
+        payload = jwt.decode(
+            token, 
+            settings.SECRET_KEY, 
+            algorithms=[settings.ALGORITHM]
+        )
+        # Verify it's a refresh token, not an access token
+        if payload.get("type") != "refresh":
+            return None
         return payload
     except JWTError:
         return None
