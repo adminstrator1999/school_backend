@@ -32,8 +32,9 @@ class User(BaseModel):
     school_id: Mapped[UUID | None] = mapped_column(
         PGUUID(as_uuid=True),
         ForeignKey("schools.id", ondelete="CASCADE"),
-        nullable=True,  # NULL for superusers
+        nullable=True,  # NULL for superusers/owner
     )
+    profile_picture: Mapped[str | None] = mapped_column(String(500), nullable=True)
     is_active: Mapped[bool] = mapped_column(
         Boolean,
         default=True,
@@ -56,8 +57,13 @@ class User(BaseModel):
 
     @property
     def is_superuser(self) -> bool:
-        """Check if user is a superuser."""
-        return self.role == Role.SUPERUSER
+        """Check if user is a superuser or owner."""
+        return self.role in (Role.SUPERUSER, Role.OWNER)
+
+    @property
+    def is_owner(self) -> bool:
+        """Check if user is the platform owner."""
+        return self.role == Role.OWNER
 
     def __repr__(self) -> str:
         return f"<User(id={self.id}, phone={self.phone_number}, role={self.role})>"

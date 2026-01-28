@@ -1,6 +1,7 @@
 """Discount model."""
 
 from datetime import date
+from decimal import Decimal
 from enum import Enum
 from uuid import UUID
 
@@ -31,7 +32,7 @@ class Discount(BaseModel):
     )
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     type: Mapped[DiscountType] = mapped_column(String(20), nullable=False)
-    value: Mapped[int] = mapped_column(
+    value: Mapped[Decimal] = mapped_column(
         Numeric(12, 2),
         nullable=False,
     )  # Percentage (10) or fixed amount (50000)

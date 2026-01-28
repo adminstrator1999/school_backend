@@ -1,6 +1,7 @@
 """Student model."""
 
 from datetime import date
+from decimal import Decimal
 from uuid import UUID
 
 from sqlalchemy import Boolean, Date, ForeignKey, Integer, Numeric, String
@@ -27,7 +28,7 @@ class Student(BaseModel):
     parent_phone: Mapped[str | None] = mapped_column(String(50))
     
     # Payment settings
-    monthly_fee: Mapped[int] = mapped_column(
+    monthly_fee: Mapped[Decimal] = mapped_column(
         Numeric(12, 2),
         nullable=False,
     )

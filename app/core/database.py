@@ -1,5 +1,6 @@
 """Database configuration."""
 
+from collections.abc import AsyncGenerator
 from datetime import datetime
 from uuid import UUID
 
@@ -48,7 +49,7 @@ class BaseModel(Base):
     )
 
 
-async def get_db() -> AsyncSession:
+async def get_db() -> AsyncGenerator[AsyncSession, None]:
     """Dependency for getting database session."""
     async with async_session_maker() as session:
         yield session
