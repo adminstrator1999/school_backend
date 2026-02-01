@@ -22,10 +22,21 @@ class Student(BaseModel):
         nullable=False,
         index=True,
     )
+    school_class_id: Mapped[UUID | None] = mapped_column(
+        PGUUID(as_uuid=True),
+        ForeignKey("school_classes.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
     first_name: Mapped[str] = mapped_column(String(100), nullable=False)
     last_name: Mapped[str] = mapped_column(String(100), nullable=False)
     phone: Mapped[str | None] = mapped_column(String(50))
-    parent_phone: Mapped[str | None] = mapped_column(String(50))
+    
+    # Parent information
+    parent_first_name: Mapped[str] = mapped_column(String(100), nullable=False)
+    parent_last_name: Mapped[str] = mapped_column(String(100), nullable=False)
+    parent_phone_1: Mapped[str] = mapped_column(String(50), nullable=False)
+    parent_phone_2: Mapped[str | None] = mapped_column(String(50), nullable=True)
     
     # Payment settings
     monthly_fee: Mapped[Decimal] = mapped_column(
@@ -39,6 +50,7 @@ class Student(BaseModel):
     )  # Day of month for payment deadline
     
     enrolled_at: Mapped[date] = mapped_column(Date, nullable=False)
+    graduated_at: Mapped[date | None] = mapped_column(Date, nullable=True)
     is_active: Mapped[bool] = mapped_column(
         Boolean,
         default=True,
@@ -47,6 +59,7 @@ class Student(BaseModel):
 
     # Relationships
     school: Mapped["School"] = relationship("School", back_populates="students")
+    school_class: Mapped["SchoolClass"] = relationship("SchoolClass", back_populates="students")
     invoices: Mapped[list["Invoice"]] = relationship("Invoice", back_populates="student")
     discounts: Mapped[list["StudentDiscount"]] = relationship(
         "StudentDiscount", back_populates="student"

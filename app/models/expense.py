@@ -71,6 +71,9 @@ class Employee(BaseModel):
     # Relationships
     school: Mapped["School"] = relationship("School", back_populates="employees")
     expenses: Mapped[list["Expense"]] = relationship("Expense", back_populates="employee")
+    homeroom_classes: Mapped[list["SchoolClass"]] = relationship(
+        "SchoolClass", back_populates="homeroom_teacher"
+    )
 
     @property
     def full_name(self) -> str:
