@@ -93,7 +93,9 @@ class TestRefresh:
         
         assert response.status_code == 401
 
-    async def test_refresh_with_access_token(self, client: AsyncClient, owner_token):
+    async def test_refresh_with_access_token(
+        self, client: AsyncClient, owner_token
+    ):
         """Test that access token cannot be used for refresh."""
         response = await client.post(
             "/api/v1/auth/refresh",

@@ -16,6 +16,7 @@ class School(BaseModel):
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     address: Mapped[str | None] = mapped_column(String(500))
     phone: Mapped[str | None] = mapped_column(String(50))
+    logo: Mapped[str | None] = mapped_column(String(500), nullable=True)
     
     # Subscription tracking
     subscription_starts_at: Mapped[datetime | None] = mapped_column(
