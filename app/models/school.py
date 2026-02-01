@@ -38,6 +38,7 @@ class School(BaseModel):
     users: Mapped[list["User"]] = relationship("User", back_populates="school")
     students: Mapped[list["Student"]] = relationship("Student", back_populates="school")
     classes: Mapped[list["SchoolClass"]] = relationship("SchoolClass", back_populates="school")
+    positions: Mapped[list["Position"]] = relationship("Position", back_populates="school")
     discounts: Mapped[list["Discount"]] = relationship("Discount", back_populates="school")
     invoices: Mapped[list["Invoice"]] = relationship("Invoice", back_populates="school")
     payments: Mapped[list["Payment"]] = relationship("Payment", back_populates="school")

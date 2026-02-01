@@ -17,6 +17,7 @@ class StudentCreate(BaseModel):
     first_name: str = Field(..., min_length=1, max_length=100)
     last_name: str = Field(..., min_length=1, max_length=100)
     phone: PhoneNumber | None = None
+    profile_picture: str | None = Field(None, max_length=500)
     
     # Parent information
     parent_first_name: str = Field(..., min_length=1, max_length=100)
@@ -36,6 +37,7 @@ class StudentUpdate(BaseModel):
     first_name: str | None = Field(None, min_length=1, max_length=100)
     last_name: str | None = Field(None, min_length=1, max_length=100)
     phone: PhoneNumber | None = None
+    profile_picture: str | None = Field(None, max_length=500)
     
     # Parent information
     parent_first_name: str | None = Field(None, min_length=1, max_length=100)
@@ -58,6 +60,7 @@ class StudentResponse(BaseModel):
     first_name: str
     last_name: str
     phone: str | None
+    profile_picture: str | None
     
     # Parent information
     parent_first_name: str

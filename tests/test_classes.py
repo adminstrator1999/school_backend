@@ -8,7 +8,7 @@ import pytest
 from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.expense import Employee
+from app.models.expense import Employee, Position
 from app.models.school import School
 from app.models.school_class import SchoolClass
 from app.models.student import Student
@@ -26,13 +26,23 @@ async def school(db: AsyncSession) -> School:
 
 
 @pytest.fixture
-async def teacher(db: AsyncSession, school: School) -> Employee:
+async def teacher_position(db: AsyncSession, school: School) -> Position:
+    """Create a test teacher position."""
+    position = Position(name="Teacher", school_id=school.id)
+    db.add(position)
+    await db.commit()
+    await db.refresh(position)
+    return position
+
+
+@pytest.fixture
+async def teacher(db: AsyncSession, school: School, teacher_position: Position) -> Employee:
     """Create a test teacher/employee."""
     teacher = Employee(
         school_id=school.id,
+        position_id=teacher_position.id,
         first_name="John",
         last_name="Teacher",
-        position="Teacher",
         salary=Decimal("5000000.00"),
     )
     db.add(teacher)

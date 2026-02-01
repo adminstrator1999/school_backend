@@ -42,6 +42,41 @@ class ExpenseCategory(BaseModel):
         return f"<ExpenseCategory(id={self.id}, name={self.name})>"
 
 
+class Position(BaseModel):
+    """Job positions for employees."""
+
+    __tablename__ = "positions"
+
+    school_id: Mapped[UUID | None] = mapped_column(
+        PGUUID(as_uuid=True),
+        ForeignKey("schools.id", ondelete="CASCADE"),
+        nullable=True,  # NULL for system-wide positions
+        index=True,
+    )
+    name: Mapped[str] = mapped_column(String(100), nullable=False)
+    is_system: Mapped[bool] = mapped_column(
+        Boolean,
+        default=False,
+        server_default="false",
+    )  # System positions can't be deleted
+    is_active: Mapped[bool] = mapped_column(
+        Boolean,
+        default=True,
+        server_default="true",
+    )
+
+    # Relationships
+    school: Mapped["School | None"] = relationship(
+        "School", back_populates="positions"
+    )
+    employees: Mapped[list["Employee"]] = relationship(
+        "Employee", back_populates="position"
+    )
+
+    def __repr__(self) -> str:
+        return f"<Position(id={self.id}, name={self.name})>"
+
+
 class Employee(BaseModel):
     """Employees (teachers, staff) - separate from users."""
 
@@ -53,10 +88,16 @@ class Employee(BaseModel):
         nullable=False,
         index=True,
     )
+    position_id: Mapped[UUID] = mapped_column(
+        PGUUID(as_uuid=True),
+        ForeignKey("positions.id"),
+        nullable=False,
+        index=True,
+    )
     first_name: Mapped[str] = mapped_column(String(100), nullable=False)
     last_name: Mapped[str] = mapped_column(String(100), nullable=False)
     phone: Mapped[str | None] = mapped_column(String(50))
-    position: Mapped[str] = mapped_column(String(100), nullable=False)
+    profile_picture: Mapped[str | None] = mapped_column(String(500), nullable=True)
     salary: Mapped[Decimal] = mapped_column(
         Numeric(12, 2),
         nullable=False,
@@ -70,6 +111,7 @@ class Employee(BaseModel):
 
     # Relationships
     school: Mapped["School"] = relationship("School", back_populates="employees")
+    position: Mapped["Position"] = relationship("Position", back_populates="employees")
     expenses: Mapped[list["Expense"]] = relationship("Expense", back_populates="employee")
     homeroom_classes: Mapped[list["SchoolClass"]] = relationship(
         "SchoolClass", back_populates="homeroom_teacher"

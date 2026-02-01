@@ -83,6 +83,7 @@ async def create_student(db: AsyncSession, student_data: StudentCreate) -> Stude
         first_name=student_data.first_name,
         last_name=student_data.last_name,
         phone=student_data.phone,
+        profile_picture=student_data.profile_picture,
         parent_first_name=student_data.parent_first_name,
         parent_last_name=student_data.parent_last_name,
         parent_phone_1=student_data.parent_phone_1,

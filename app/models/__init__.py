@@ -10,6 +10,7 @@ from app.models.expense import (
     Employee,
     Expense,
     ExpenseCategory,
+    Position,
     RecurringExpense,
     RecurrenceType,
 )
@@ -29,6 +30,7 @@ __all__ = [
     "Employee",
     "Expense",
     "ExpenseCategory",
+    "Position",
     "RecurringExpense",
     "RecurrenceType",
 ]

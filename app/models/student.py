@@ -31,6 +31,7 @@ class Student(BaseModel):
     first_name: Mapped[str] = mapped_column(String(100), nullable=False)
     last_name: Mapped[str] = mapped_column(String(100), nullable=False)
     phone: Mapped[str | None] = mapped_column(String(50))
+    profile_picture: Mapped[str | None] = mapped_column(String(500), nullable=True)
     
     # Parent information
     parent_first_name: Mapped[str] = mapped_column(String(100), nullable=False)
