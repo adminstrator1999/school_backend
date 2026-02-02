@@ -8,6 +8,7 @@ from app.api.v1.routes import (
     discounts,
     employees,
     expense_categories,
+    expenses,
     invoices,
     payments,
     positions,
@@ -29,3 +30,4 @@ api_router.include_router(discounts.router)
 api_router.include_router(invoices.router)
 api_router.include_router(payments.router)
 api_router.include_router(expense_categories.router)
+api_router.include_router(expenses.router)
