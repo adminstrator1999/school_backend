@@ -8,7 +8,7 @@ import pytest
 from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.expense import Employee, Expense, ExpenseCategory, Position
+from app.models.expense import Expense, ExpenseCategory
 from app.models.invoice import Invoice, InvoiceStatus, Payment, PaymentMethod
 from app.models.school import School
 from app.models.school_class import SchoolClass

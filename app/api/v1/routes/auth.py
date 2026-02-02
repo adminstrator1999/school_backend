@@ -1,6 +1,7 @@
 """Authentication routes."""
 
 from typing import Annotated
+from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
@@ -13,6 +14,7 @@ from app.core.security import (
     create_refresh_token,
     decode_refresh_token,
 )
+from app.models.user import User
 from app.schemas.auth import LoginRequest, RefreshRequest, Token
 from app.services.auth import authenticate_user
 
@@ -77,9 +79,6 @@ async def refresh_tokens(
     db: Annotated[AsyncSession, Depends(get_db)],
 ) -> Token:
     """Get new access and refresh tokens using a valid refresh token."""
-    from uuid import UUID
-    from app.models.user import User
-    
     payload = decode_refresh_token(refresh_data.refresh_token)
     
     if payload is None:

@@ -8,7 +8,7 @@ from sqlalchemy import and_, func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.models.discount import DiscountType, StudentDiscount
+from app.models.discount import Discount, DiscountType, StudentDiscount
 from app.models.invoice import Invoice, InvoiceStatus
 from app.models.student import Student
 from app.schemas.invoice import InvoiceCreate, InvoiceGenerateRequest, InvoiceUpdate
@@ -144,8 +144,6 @@ async def calculate_student_discount(
 ) -> Decimal:
     """Calculate total discount for a student based on active discounts."""
     # Get all active discounts for the student
-    from app.models.discount import Discount
-
     query = (
         select(Discount)
         .join(StudentDiscount, StudentDiscount.discount_id == Discount.id)

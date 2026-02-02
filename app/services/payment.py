@@ -4,7 +4,7 @@ from datetime import date, datetime
 from decimal import Decimal
 from uuid import UUID
 
-from sqlalchemy import and_, func, select
+from sqlalchemy import and_, func, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
@@ -162,7 +162,6 @@ async def update_invoice_status(db: AsyncSession, invoice_id: UUID) -> None:
         new_status = InvoiceStatus.PENDING
 
     # Use execute to update to avoid session caching issues
-    from sqlalchemy import update
     await db.execute(
         update(Invoice).where(Invoice.id == invoice_id).values(status=new_status)
     )

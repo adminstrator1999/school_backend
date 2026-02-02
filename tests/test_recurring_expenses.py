@@ -1,6 +1,6 @@
 """Tests for Recurring Expenses API."""
 
-from datetime import date, timedelta
+from datetime import date
 from decimal import Decimal
 from uuid import uuid4
 
@@ -8,8 +8,11 @@ import pytest
 from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.expense import ExpenseCategory, RecurringExpense, RecurrenceType, Expense
+from app.core.permissions import Role
+from app.core.security import get_password_hash
+from app.models.expense import ExpenseCategory, RecurringExpense, RecurrenceType
 from app.models.school import School
+from app.models.user import User
 
 
 def auth_header(token: str) -> dict:
@@ -623,10 +626,6 @@ class TestRecurringExpensePermissions:
         db: AsyncSession,
     ):
         """Test that staff users cannot manage recurring expenses."""
-        from app.models.user import User
-        from app.core.permissions import Role
-        from app.core.security import get_password_hash
-
         # Create staff user
         staff = User(
             phone_number="+998901112233",
@@ -663,10 +662,6 @@ class TestRecurringExpensePermissions:
         db: AsyncSession,
     ):
         """Test that accountants can manage recurring expenses."""
-        from app.models.user import User
-        from app.core.permissions import Role
-        from app.core.security import get_password_hash
-
         # Create accountant user
         accountant = User(
             phone_number="+998901112244",

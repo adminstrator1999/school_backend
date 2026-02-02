@@ -1,10 +1,13 @@
 """Tests for user endpoints."""
 
-import pytest
+import uuid
+
 from httpx import AsyncClient
+from sqlalchemy import delete
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.permissions import Role
+from app.core.security import get_password_hash
 from app.models.user import User
 from tests.conftest import auth_header
 
@@ -124,7 +127,6 @@ class TestCreateUser:
         assert data["role"] == "superuser"
         
         # Cleanup
-        from sqlalchemy import delete
         await db.execute(delete(User).where(User.phone_number == "+998904444444"))
         await db.commit()
 
@@ -167,7 +169,6 @@ class TestCreateUser:
         assert response.json()["role"] == "director"
         
         # Cleanup
-        from sqlalchemy import delete
         await db.execute(delete(User).where(User.phone_number == "+998906666666"))
         await db.commit()
 
@@ -272,7 +273,6 @@ class TestGetUser:
 
     async def test_get_user_not_found(self, client: AsyncClient, owner_token):
         """Test getting non-existent user."""
-        import uuid
         fake_id = uuid.uuid4()
         
         response = await client.get(
@@ -320,7 +320,6 @@ class TestDeleteUser:
     ):
         """Test soft deleting a user."""
         # Create a user to delete
-        from app.core.security import get_password_hash
         user = User(
             phone_number="+998907777777",
             password_hash=get_password_hash("password123"),

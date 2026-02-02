@@ -1,11 +1,13 @@
 """SchoolClass service layer."""
 
+from datetime import date
 from uuid import UUID
 
-from sqlalchemy import func, select
+from sqlalchemy import func, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.school_class import SchoolClass
+from app.models.student import Student
 from app.schemas.school_class import SchoolClassCreate, SchoolClassUpdate
 
 
@@ -114,10 +116,6 @@ async def promote_students(
     Students in grade 11 will be graduated.
     Returns count of promoted and graduated students.
     """
-    from datetime import date
-    from sqlalchemy import update
-    from app.models.student import Student
-    
     promoted = 0
     graduated = 0
     

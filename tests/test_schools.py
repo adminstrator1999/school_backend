@@ -1,6 +1,7 @@
 """Tests for schools API."""
 
-import pytest
+from uuid import uuid4
+
 from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -145,8 +146,6 @@ class TestGetSchool:
         self, client: AsyncClient, owner_token: str
     ):
         """Test getting non-existent school."""
-        from uuid import uuid4
-
         response = await client.get(
             f"/api/v1/schools/{uuid4()}",
             headers=auth_header(owner_token),
@@ -253,8 +252,6 @@ class TestDeleteSchool:
         self, client: AsyncClient, owner_token: str
     ):
         """Test deleting non-existent school."""
-        from uuid import uuid4
-
         response = await client.delete(
             f"/api/v1/schools/{uuid4()}",
             headers=auth_header(owner_token),
