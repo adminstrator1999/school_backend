@@ -12,6 +12,7 @@ from app.api.v1.routes import (
     invoices,
     payments,
     positions,
+    recurring_expenses,
     reports,
     schools,
     students,
@@ -32,4 +33,5 @@ api_router.include_router(invoices.router)
 api_router.include_router(payments.router)
 api_router.include_router(expense_categories.router)
 api_router.include_router(expenses.router)
+api_router.include_router(recurring_expenses.router)
 api_router.include_router(reports.router)
