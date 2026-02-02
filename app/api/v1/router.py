@@ -2,7 +2,19 @@
 
 from fastapi import APIRouter
 
-from app.api.v1.routes import auth, classes, discounts, employees, invoices, payments, positions, schools, students, users
+from app.api.v1.routes import (
+    auth,
+    classes,
+    discounts,
+    employees,
+    expense_categories,
+    invoices,
+    payments,
+    positions,
+    schools,
+    students,
+    users,
+)
 
 api_router = APIRouter()
 
@@ -16,3 +28,4 @@ api_router.include_router(employees.router)
 api_router.include_router(discounts.router)
 api_router.include_router(invoices.router)
 api_router.include_router(payments.router)
+api_router.include_router(expense_categories.router)
