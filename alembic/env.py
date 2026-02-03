@@ -24,6 +24,7 @@ from app.models import (  # noqa: F401
     ExpenseCategory,
     Invoice,
     InvoiceStatus,
+    Language,
     Payment,
     PaymentMethod,
     Position,

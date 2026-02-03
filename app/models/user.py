@@ -1,5 +1,6 @@
 """User model."""
 
+from enum import StrEnum
 from uuid import UUID
 
 from sqlalchemy import Boolean, ForeignKey, String
@@ -8,6 +9,14 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.database import BaseModel
 from app.core.permissions import Role
+
+
+class Language(StrEnum):
+    """Supported languages."""
+
+    UZ = "uz"
+    RU = "ru"
+    EN = "en"
 
 
 class User(BaseModel):
@@ -39,6 +48,11 @@ class User(BaseModel):
         Boolean,
         default=True,
         server_default="true",
+    )
+    language: Mapped[Language] = mapped_column(
+        String(5),
+        default=Language.UZ,
+        server_default="uz",
     )
 
     # Relationships
