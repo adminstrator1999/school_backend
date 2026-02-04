@@ -19,6 +19,13 @@ class Language(StrEnum):
     EN = "en"
 
 
+class Theme(StrEnum):
+    """UI themes."""
+
+    LIGHT = "light"
+    DARK = "dark"
+
+
 class User(BaseModel):
     """User model for authentication and authorization."""
 
@@ -53,6 +60,11 @@ class User(BaseModel):
         String(5),
         default=Language.UZ,
         server_default="uz",
+    )
+    theme: Mapped[Theme] = mapped_column(
+        String(10),
+        default=Theme.LIGHT,
+        server_default="light",
     )
 
     # Relationships

@@ -6,7 +6,7 @@ from uuid import UUID
 from pydantic import BaseModel, Field
 
 from app.core.permissions import Role
-from app.models.user import Language
+from app.models.user import Language, Theme
 from app.schemas.validators import PhoneNumber
 
 
@@ -21,6 +21,7 @@ class UserCreate(BaseModel):
     school_id: UUID | None = None
     profile_picture: str | None = Field(None, max_length=500)
     language: Language = Language.UZ
+    theme: Theme = Theme.LIGHT
 
 
 class UserUpdate(BaseModel):
@@ -34,6 +35,7 @@ class UserUpdate(BaseModel):
     profile_picture: str | None = Field(None, max_length=500)
     is_active: bool | None = None
     language: Language | None = None
+    theme: Theme | None = None
 
 
 class UserUpdateMe(BaseModel):
@@ -44,6 +46,7 @@ class UserUpdateMe(BaseModel):
     last_name: str | None = Field(None, min_length=1, max_length=100)
     profile_picture: str | None = Field(None, max_length=500)
     language: Language | None = None
+    theme: Theme | None = None
 
 
 class PasswordChange(BaseModel):
@@ -65,6 +68,7 @@ class UserResponse(BaseModel):
     profile_picture: str | None
     is_active: bool
     language: Language
+    theme: Theme
     created_at: datetime
     updated_at: datetime
 
