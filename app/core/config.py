@@ -21,6 +21,11 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 3  # 3 hours
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7  # 7 days
 
+    # File Uploads
+    UPLOAD_DIR: str = "static/uploads"
+    MAX_UPLOAD_SIZE: int = 5 * 1024 * 1024  # 5MB
+    ALLOWED_IMAGE_TYPES: list[str] = ["image/jpeg", "image/png", "image/gif", "image/webp", "image/svg+xml"]
+
     model_config = {"env_file": ".env", "extra": "ignore"}
 
 

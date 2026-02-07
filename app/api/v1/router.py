@@ -16,6 +16,7 @@ from app.api.v1.routes import (
     reports,
     schools,
     students,
+    uploads,
     users,
 )
 
@@ -35,3 +36,5 @@ api_router.include_router(expense_categories.router)
 api_router.include_router(expenses.router)
 api_router.include_router(recurring_expenses.router)
 api_router.include_router(reports.router)
+api_router.include_router(uploads.router)
+
