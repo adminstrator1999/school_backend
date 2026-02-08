@@ -66,8 +66,8 @@ async def get_positions(
     total_result = await db.execute(count_query)
     total = total_result.scalar() or 0
 
-    # Get positions
-    query = query.order_by(Position.is_system.desc(), Position.name).offset(skip).limit(limit)
+    # Get positions - system positions first, then by newest created
+    query = query.order_by(Position.is_system.desc(), Position.created_at.desc()).offset(skip).limit(limit)
     result = await db.execute(query)
     positions = list(result.scalars().all())
 
@@ -92,7 +92,7 @@ async def get_positions_by_school(
         select(Position)
         .where(condition)
         .where(Position.is_active == True)
-        .order_by(Position.is_system.desc(), Position.name)
+        .order_by(Position.is_system.desc(), Position.created_at.desc())
     )
     result = await db.execute(query)
     return list(result.scalars().all())
