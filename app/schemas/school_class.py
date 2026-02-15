@@ -11,7 +11,7 @@ class SchoolClassCreate(BaseModel):
 
     school_id: UUID
     homeroom_teacher_id: UUID | None = None
-    grade: int = Field(..., ge=1, le=11)
+    grade: int = Field(..., ge=0, le=11)
     section: str = Field(..., min_length=1, max_length=10)
 
 
@@ -19,7 +19,7 @@ class SchoolClassUpdate(BaseModel):
     """Schema for updating a school class."""
 
     homeroom_teacher_id: UUID | None = None
-    grade: int | None = Field(None, ge=1, le=11)
+    grade: int | None = Field(None, ge=0, le=11)
     section: str | None = Field(None, min_length=1, max_length=10)
     is_active: bool | None = None
 

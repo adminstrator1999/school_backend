@@ -28,7 +28,7 @@ async def list_classes(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=100),
     school_id: UUID | None = None,
-    grade: int | None = Query(None, ge=1, le=11),
+    grade: int | None = Query(None, ge=0, le=11),
     is_active: bool | None = None,
 ):
     """List all school classes with optional filters."""
