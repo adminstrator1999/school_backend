@@ -248,4 +248,10 @@ async def delete_expense_category(
                 detail="Cannot delete expense categories from other schools",
             )
 
-    await category_service.delete_expense_category(db, category)
+    try:
+        await category_service.delete_expense_category(db, category)
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=str(e),
+        )

@@ -5,7 +5,7 @@ from uuid import UUID
 from sqlalchemy import func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.expense import ExpenseCategory
+from app.models.expense import Expense, ExpenseCategory
 from app.schemas.expense_category import ExpenseCategoryCreate, ExpenseCategoryUpdate
 
 
@@ -106,6 +106,16 @@ async def update_expense_category(
 
 async def delete_expense_category(db: AsyncSession, category: ExpenseCategory) -> None:
     """Delete an expense category."""
+    # Check if any expenses are linked to this category
+    count_query = select(func.count()).where(Expense.category_id == category.id)
+    result = await db.execute(count_query)
+    expense_count = result.scalar() or 0
+
+    if expense_count > 0:
+        raise ValueError(
+            f"Cannot delete category: {expense_count} expense(s) are using it"
+        )
+
     await db.delete(category)
     await db.commit()
 
